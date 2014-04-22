@@ -15,6 +15,10 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('aureka_disqus');
+        $rootNode
+            ->children()
+                ->scalarNode('short_name')->isRequired()->end()
+            ->end();
         return $treeBuilder;
     }
 

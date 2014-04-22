@@ -33,4 +33,11 @@ public function registerBundles()
 
 ## Configuration
 
-> pending
+
+Add the following lines to your `config.yml`:
+
+
+```
+aureka_disqus:
+    short_name: 'your_shortname' # used to identify the site in disqus
+```
