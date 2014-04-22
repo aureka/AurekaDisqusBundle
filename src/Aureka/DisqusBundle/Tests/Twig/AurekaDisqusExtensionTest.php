@@ -25,9 +25,7 @@ class AurekaDisqusExtensionTest extends \PHPUnit_Framework_TestCase
      */
     public function itAddsTheDisqusThreadDivToDisqusThread()
     {
-        $environment = $this->getMock('Twig_Environment');
-
-        $output = $this->extension->disqus($environment, $this->disqusable);
+        $output = $this->extension->disqus($this->disqusable);
 
         $this->assertRegExp('/\<div id\=\"disqus_thread\"\>\<\/div\>/', $output);
     }
@@ -38,9 +36,7 @@ class AurekaDisqusExtensionTest extends \PHPUnit_Framework_TestCase
      */
     public function itAddsTheShortNameToDisqusThread()
     {
-        $environment = $this->getMock('Twig_Environment');
-
-        $output = $this->extension->disqus($environment, $this->disqusable);
+        $output = $this->extension->disqus($this->disqusable);
 
         $this->assertRegExp('/var disqus_shortname="short_name"/', $output);
     }
@@ -51,12 +47,11 @@ class AurekaDisqusExtensionTest extends \PHPUnit_Framework_TestCase
      */
     public function itAddsTheDisqusableIdentifierToDisqusThread()
     {
-        $environment = $this->getMock('Twig_Environment');
         $this->disqusable->expects($this->any())
             ->method('getDisqusId')
             ->will($this->returnValue('disqus_id/4444'));
 
-        $output = $this->extension->disqus($environment, $this->disqusable);
+        $output = $this->extension->disqus($this->disqusable);
 
         $this->assertRegExp('/var disqus_identifier="disqus_id\/4444";/', $output);
     }

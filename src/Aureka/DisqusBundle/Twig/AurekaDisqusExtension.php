@@ -19,7 +19,7 @@ class AurekaDisqusExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            new \Twig_SimpleFilter('disqus', array($this, 'disqus'), array('is_safe' => array('html'), 'needs_environment' => true)),
+            new \Twig_SimpleFilter('disqus', array($this, 'disqus'), array('is_safe' => array('html'))),
         );
     }
 
@@ -32,24 +32,13 @@ class AurekaDisqusExtension extends \Twig_Extension
     }
 
 
-    public function disqus(\Twig_Environment $env, Disqusable $disqusable)
+    public function disqus(Disqusable $disqusable)
     {
-        $user = $this->getUser($env);
         $vars = array(
             'disqus_shortname' => $this->shortName,
             'disqus_identifier' => $disqusable->getDisqusId(),
             );
         return '<div id="disqus_thread"></div>' . $this->encloseScript($this->addVars($vars, $this->remoteCall('embed.js')));
-    }
-
-
-    private function getUser($env)
-    {
-        $globals = $env->getGlobals();
-        if (isset($globals['app'])) {
-            return $globals['app']->getUser();
-        }
-        return null;
     }
 
 
