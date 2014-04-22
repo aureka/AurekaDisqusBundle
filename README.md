@@ -41,3 +41,38 @@ Add the following lines to your `config.yml`:
 aureka_disqus:
     short_name: 'your_shortname' # used to identify the site in disqus
 ```
+
+
+## Usage
+
+Make the class an implementation of the interface `Disqusable`:
+
+```php
+# src/Acme/DemoBundle/Entity/BlogPost.php
+
+namespace Acme\DemoBundle\Entity;
+
+use Aureka\DisqusBundle\Model\Disqusable;
+
+class BlogPost implements Disqusable
+{
+
+    // ... your other methods
+
+    public function getDisqusId()
+    {
+        return $this->disqusId; // generate it on the fly or make it persisted.
+    }
+}
+```
+
+
+Use the twig filter in your template.
+
+
+```twig
+{# src/Acme/DemoBundle/Resources/views/BlogPost/show.html.twig #}
+
+{{ post|disqus }}
+```
+
