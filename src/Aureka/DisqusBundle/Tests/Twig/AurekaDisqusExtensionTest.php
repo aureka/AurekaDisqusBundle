@@ -53,7 +53,7 @@ class AurekaDisqusExtensionTest extends \PHPUnit_Framework_TestCase
 
         $output = $this->extension->disqus($this->disqusable);
 
-        $this->assertRegExp('/var disqus_identifier="disqus_id\/4444"/', $output);
+        $this->assertRegExp('/var disqus_identifier="disqus_id\/4444";/', $output);
     }
 
 
@@ -64,7 +64,7 @@ class AurekaDisqusExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $output = $this->extension->disqusComments();
 
-        $this->assertRegExp('/var disqus_shortname="short_name"/', $output);
+        $this->assertRegExp('/var disqus_shortname="short_name";/', $output);
     }
 
 }

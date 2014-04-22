@@ -61,7 +61,7 @@ class AurekaDisqusExtension extends \Twig_Extension
     {
         $variables = array();
         foreach ($vars as $key => $value) {
-            $variables[] = sprintf('var %s="%s"', $key, $value);
+            $variables[] = sprintf('var %s="%s";', $key, $value);
         }
         return implode('', $variables).$input;
     }
