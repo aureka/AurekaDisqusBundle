@@ -2,6 +2,8 @@
 
 namespace Aureka\DisqusBundle\Twig;
 
+use Aureka\DisqusBundle\Model\Disqusable;
+
 class AurekaDisqusExtension extends \Twig_Extension
 {
 
@@ -22,13 +24,19 @@ class AurekaDisqusExtension extends \Twig_Extension
     }
 
 
-    public function disqus($disqusable)
+    public function disqus(Disqusable $disqusable)
     {
         $output = '<div id="disqus_thread"></div>'.
                   '<script type="text/javascript">'.
                       'var disqus_shortname="%s";'.
+                      'var disqus_identifier="%s";'.
+                      "(function() {
+                            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                        })();".
                   '</script>';
-        return sprintf($output, $this->shortName);
+        return sprintf($output, $this->shortName, $disqusable->getDisqusId());
     }
 
 
@@ -37,20 +45,3 @@ class AurekaDisqusExtension extends \Twig_Extension
         return 'aureka_disqus_extension';
     }
 }
-
-
-/*
-<div id="disqus_thread"></div>
-
-<script type="text/javascript">
-    var disqus_shortname = "{{ site.disqus_shortname }}";
-    var disqus_identifier = "node/19759";
-
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-*/
