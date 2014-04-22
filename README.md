@@ -73,6 +73,8 @@ Use the twig filter in your template.
 ```twig
 {# src/Acme/DemoBundle/Resources/views/BlogPost/show.html.twig #}
 
+{{ post|disqus_comments }}
+
 {{ post|disqus }}
 ```
 

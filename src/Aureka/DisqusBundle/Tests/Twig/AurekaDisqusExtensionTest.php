@@ -23,7 +23,7 @@ class AurekaDisqusExtensionTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itAddsTheDisqusThreadDiv()
+    public function itAddsTheDisqusThreadDivToDisqusThread()
     {
         $output = $this->extension->disqus($this->disqusable);
 
@@ -34,7 +34,7 @@ class AurekaDisqusExtensionTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itAddsTheShortName()
+    public function itAddsTheShortNameToDisqusThread()
     {
         $output = $this->extension->disqus($this->disqusable);
 
@@ -45,13 +45,39 @@ class AurekaDisqusExtensionTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itAddsTheDisqusableIdentifier()
+    public function itAddsTheDisqusableIdentifierToDisqusThread()
     {
         $this->disqusable->expects($this->any())
             ->method('getDisqusId')
             ->will($this->returnValue('disqus_id/4444'));
 
         $output = $this->extension->disqus($this->disqusable);
+
+        $this->assertRegExp('/var disqus_identifier="disqus_id\/4444"/', $output);
+    }
+
+
+    /**
+     * @test
+     */
+    public function itAddsTheShortNameToDisqusComments()
+    {
+        $output = $this->extension->disqusComments($this->disqusable);
+
+        $this->assertRegExp('/var disqus_shortname="short_name"/', $output);
+    }
+
+
+    /**
+     * @test
+     */
+    public function itAddsTheDisqusableIdentifierToDisqusComments()
+    {
+        $this->disqusable->expects($this->any())
+            ->method('getDisqusId')
+            ->will($this->returnValue('disqus_id/4444'));
+
+        $output = $this->extension->disqusComments($this->disqusable);
 
         $this->assertRegExp('/var disqus_identifier="disqus_id\/4444"/', $output);
     }
