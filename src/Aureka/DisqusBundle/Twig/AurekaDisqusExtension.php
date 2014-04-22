@@ -19,7 +19,7 @@ class AurekaDisqusExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            new \Twig_SimpleFilter('disqus', array($this, 'disqus')),
+            new \Twig_SimpleFilter('disqus', array($this, 'disqus'), array('is_safe' => array('html'))),
         );
     }
 
