@@ -13,7 +13,7 @@
     "require": {
         "symfony/framework-bundle" : ">=2.3",
         "symfony/twig-bundle" :      ">=2.3",
-        "twig/extensions":           "dev-master"
+        "twig/extensions":           "*"
     },
     "require-dev": {
         "phpunit/phpunit":           "*",
