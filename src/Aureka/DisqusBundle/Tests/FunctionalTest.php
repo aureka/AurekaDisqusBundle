@@ -33,6 +33,6 @@ class FunctionalTest extends WebTestCase
 
         $output = $templating->render('::test.html.twig', array('disqusable' => $disqusable));
 
-        $this->assertRegexp('/\&lt;script\&gt;/', $output);
+        $this->assertRegexp('/\&lt;script/', $output);
     }
 }
