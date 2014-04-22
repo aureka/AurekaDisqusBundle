@@ -2,3 +2,7 @@
 parameters:
 
 services:
+    aureka.disqus.twig_extension:
+        class: Aureka\DisqusBundle\Twig\AurekaDisqusExtension
+        tags:
+            - { name: twig.extension }

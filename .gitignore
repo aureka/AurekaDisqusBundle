@@ -1,2 +1,4 @@
 vendor
 composer.lock
+src/Aureka/DisqusBundle/Tests/Application/cache
+src/Aureka/DisqusBundle/Tests/Application/logs
