@@ -8,28 +8,35 @@ use Aureka\DisqusBundle\Twig\AurekaDisqusExtension;
 class AurekaDisqusExtensionTest extends \PHPUnit_Framework_TestCase
 {
 
+    private $disqusable;
+    private $extension;
+
+
+    public function setUp()
+    {
+        $this->disqusable = $this->getMock('Aureka\DisqusBundle\Model\Disqusable');
+        $this->extension = new AurekaDisqusExtension('short_name');
+
+    }
+
+
     /**
      * @test
      */
     public function itAddsTheDisqusThreadDiv()
     {
-        $disqusable = $this->getMock('Aureka\DisqusBundle\Model\Disqusable');
-        $extension = new AurekaDisqusExtension('short_name');
-
-        $output = $extension->disqus($disqusable);
+        $output = $this->extension->disqus($this->disqusable);
 
         $this->assertRegExp('/\<div id\=\"disqus_thread\"\>\<\/div\>/', $output);
     }
+
 
     /**
      * @test
      */
     public function itAddsTheShortName()
     {
-        $disqusable = $this->getMock('Aureka\DisqusBundle\Model\Disqusable');
-        $extension = new AurekaDisqusExtension('short_name');
-
-        $output = $extension->disqus($disqusable);
+        $output = $this->extension->disqus($this->disqusable);
 
         $this->assertRegExp('/var disqus_shortname="short_name"/', $output);
     }
