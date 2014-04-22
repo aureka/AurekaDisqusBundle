@@ -62,23 +62,9 @@ class AurekaDisqusExtensionTest extends \PHPUnit_Framework_TestCase
      */
     public function itAddsTheShortNameToDisqusComments()
     {
-        $output = $this->extension->disqusComments($this->disqusable);
+        $output = $this->extension->disqusComments();
 
         $this->assertRegExp('/var disqus_shortname="short_name"/', $output);
     }
 
-
-    /**
-     * @test
-     */
-    public function itAddsTheDisqusableIdentifierToDisqusComments()
-    {
-        $this->disqusable->expects($this->any())
-            ->method('getDisqusId')
-            ->will($this->returnValue('disqus_id/4444'));
-
-        $output = $this->extension->disqusComments($this->disqusable);
-
-        $this->assertRegExp('/var disqus_identifier="disqus_id\/4444"/', $output);
-    }
 }

@@ -20,34 +20,60 @@ class AurekaDisqusExtension extends \Twig_Extension
     {
         return array(
             new \Twig_SimpleFilter('disqus', array($this, 'disqus'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFilter('disqus_comments', array($this, 'disqusComments'), array('is_safe' => array('html'))),
+        );
+    }
+
+
+    public function getFunctions()
+    {
+        return array(
+            new \Twig_SimpleFunction('disqus_comments', array($this, 'disqusComments'), array('is_safe' => array('html'))),
         );
     }
 
 
     public function disqus(Disqusable $disqusable)
     {
-        return '<div id="disqus_thread"></div>' . $this->getScriptSnippet($disqusable, 'embed.js');
+        $vars = array(
+            'disqus_shortname' => $this->shortName,
+            'disqus_identifier' => $disqusable->getDisqusId(),
+            );
+        return '<div id="disqus_thread"></div>' . $this->encloseScript($this->addVars($vars, $this->remoteCall('embed.js')));
     }
 
 
-    public function disqusComments(Disqusable $disqusable)
+    public function disqusComments()
     {
-        return $this->getScriptSnippet($disqusable, 'count.js');
+        $vars = array(
+            'disqus_shortname' => $this->shortName,
+            );
+        return $this->encloseScript($this->addVars($vars, $this->remoteCall('count.js')));
     }
 
 
-    private function getScriptSnippet(Disqusable $disqusable, $script_name)
+    private function encloseScript($input)
     {
-        return sprintf('<script type="text/javascript">'.
-                'var disqus_shortname="%s";'.
-                'var disqus_identifier="%s";'.
-                "(function() {
-                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-                    dsq.src = '//' + disqus_shortname + '.disqus.com/%s';
-                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-                    })();".
-            '</script>', $this->shortName, $disqusable->getDisqusId(), $script_name);
+        return '<script type="text/javascript">'.$input.'</script>';
+    }
+
+
+    private function addVars(array $vars, $input)
+    {
+        $variables = array();
+        foreach ($vars as $key => $value) {
+            $variables[] = sprintf('var %s="%s"', $key, $value);
+        }
+        return implode('', $variables).$input;
+    }
+
+
+    private function remoteCall($script_name)
+    {
+        return sprintf("(function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/%s';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();", $script_name);
     }
 
 
