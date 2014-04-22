@@ -27,33 +27,27 @@ class AurekaDisqusExtension extends \Twig_Extension
 
     public function disqus(Disqusable $disqusable)
     {
-        $output = '<div id="disqus_thread"></div>'.
-                  '<script type="text/javascript">'.
-                      'var disqus_shortname="%s";'.
-                      'var disqus_identifier="%s";'.
-                      "(function() {
-                            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-                            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-                            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-                        })();".
-                  '</script>';
-        return sprintf($output, $this->shortName, $disqusable->getDisqusId());
+        return '<div id="disqus_thread"></div>' . $this->getScriptSnippet($disqusable, 'embed.js');
     }
 
 
     public function disqusComments(Disqusable $disqusable)
     {
-        $output = '<script type="text/javascript">'.
-                      'var disqus_shortname="%s";'.
-                      'var disqus_identifier="%s";'.
-                      "(function () {
-                            var s = document.createElement('script'); s.async = true;
-                            s.type = 'text/javascript';
-                            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-                            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-                        }());".
-                  '</script>';
-        return sprintf($output, $this->shortName, $disqusable->getDisqusId());
+        return $this->getScriptSnippet($disqusable, 'count.js');
+    }
+
+
+    private function getScriptSnippet(Disqusable $disqusable, $script_name)
+    {
+        return sprintf('<script type="text/javascript">'.
+                'var disqus_shortname="%s";'.
+                'var disqus_identifier="%s";'.
+                "(function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//' + disqus_shortname + '.disqus.com/%s';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();".
+            '</script>', $this->shortName, $disqusable->getDisqusId(), $script_name);
     }
 
 
