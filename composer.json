@@ -1,0 +1,24 @@
+{
+    "name": "aureka/disqus-bundle",
+    "type": "symfony-bundle",
+    "version": "0.0.1",
+    "license": "Apache2",
+    "description": "Provides a few Twig filters to integrate Symfony with Disqus",
+    "authors": [
+        {
+            "name": "Carles Climent Granell",
+            "email": "carlescliment@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/framework-bundle" : ">=2.3",
+        "twig/extensions":           "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit":           "*",
+        "symfony/browser-kit":       ">=2.3,<2.4-dev"
+    },
+    "autoload": {
+        "psr-0": { "Aureka\\DisqusBundle": "src" }
+    }
+}
