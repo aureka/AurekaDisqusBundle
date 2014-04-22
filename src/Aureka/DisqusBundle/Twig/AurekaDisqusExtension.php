@@ -24,7 +24,8 @@ class AurekaDisqusExtension extends \Twig_Extension
 
     public function disqus($disqusable)
     {
-        $output = '<script type="text/javascript">'.
+        $output = '<div id="disqus_thread"></div>'.
+                  '<script type="text/javascript">'.
                       'var disqus_shortname="%s";'.
                   '</script>';
         return sprintf($output, $this->shortName);
