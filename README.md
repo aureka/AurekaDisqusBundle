@@ -73,8 +73,10 @@ Use the twig filter in your template.
 ```twig
 {# src/Acme/DemoBundle/Resources/views/BlogPost/show.html.twig #}
 
+{# renders the thread and comment form #}
 {{ post|disqus }}
 
-{{ disqus_comments() }}
+{# adds the count for any disqus link #}
+{{ disqus_count() }}
 ```
 
