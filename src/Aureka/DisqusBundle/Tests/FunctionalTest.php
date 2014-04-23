@@ -9,7 +9,8 @@ use Aureka\DisqusBundle\Tests\Fixture\MyDisqusable;
 class FunctionalTest extends WebTestCase
 {
 
-    private $container;
+    private $disqusable;
+    private $templating;
 
     protected static function createKernel(array $options = array())
     {
@@ -19,7 +20,9 @@ class FunctionalTest extends WebTestCase
 
     public function setUp()
     {
-        $this->container = self::createClient()->getKernel()->getContainer();
+        $container = self::createClient()->getKernel()->getContainer();
+        $this->disqusable = new MyDisqusable;
+        $this->templating = $container->get('templating');
     }
 
 
@@ -28,11 +31,52 @@ class FunctionalTest extends WebTestCase
      */
     public function itProvidesADisqusFilterForDisqusComments()
     {
-        $disqusable = new MyDisqusable;
-        $templating = $this->container->get('templating');
-
-        $output = $templating->render('::test.html.twig', array('disqusable' => $disqusable));
+        $output = $this->templating->render('::thread.html.twig', array('disqusable' => $this->disqusable));
 
         $this->assertRegexp('/\<script/', $output);
+    }
+
+
+    /**
+     * @test
+     */
+    public function itAddsTheDisqusThreadDivToDisqusThread()
+    {
+        $output = $this->templating->render('::thread.html.twig', array('disqusable' => $this->disqusable));
+
+        $this->assertRegExp('/\<div id\=\"disqus_thread\"\>\<\/div\>/', $output);
+    }
+
+
+    /**
+     * @test
+     */
+    public function itAddsTheShortNameToDisqusThread()
+    {
+        $output = $this->templating->render('::thread.html.twig', array('disqusable' => $this->disqusable));
+
+        $this->assertRegExp('/var disqus_shortname="test_short_name"/', $output);
+    }
+
+
+    /**
+     * @test
+     */
+    public function itAddsTheDisqusableIdentifierToDisqusThread()
+    {
+        $output = $this->templating->render('::thread.html.twig', array('disqusable' => $this->disqusable));
+
+        $this->assertRegExp('/var disqus_identifier="test_id";/', $output);
+    }
+
+
+    /**
+     * @test
+     */
+    public function itAddsTheShortNameToDisqusComments()
+    {
+        $output = $this->templating->render('::count.html.twig', array('disqusable' => $this->disqusable));
+
+        $this->assertRegExp('/var disqus_shortname="test_short_name";/', $output);
     }
 }

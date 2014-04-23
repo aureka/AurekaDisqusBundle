@@ -9,7 +9,7 @@ class MyDisqusable implements Disqusable
 
     public function getDisqusId()
     {
-        return 'my_id';
+        return 'test_id';
     }
 
 }

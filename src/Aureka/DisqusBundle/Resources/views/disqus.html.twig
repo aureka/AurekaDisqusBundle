@@ -1,0 +1,14 @@
+{{ spaceless }}
+    <script type="text/javascript">
+
+        {% for key, value in vars %}
+            var {{ key }}="{{ value }}";
+        {% endfor %}
+
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/{{ remote_script }}';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+{{ endspaceless }}

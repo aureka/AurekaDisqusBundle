@@ -9,62 +9,59 @@ class AurekaDisqusExtensionTest extends \PHPUnit_Framework_TestCase
 {
 
     private $disqusable;
+    private $environment;
     private $extension;
 
 
     public function setUp()
     {
         $this->disqusable = $this->getMock('Aureka\DisqusBundle\Model\Disqusable');
-        $this->extension = new AurekaDisqusExtension('short_name');
-
-    }
-
-
-    /**
-     * @test
-     */
-    public function itAddsTheDisqusThreadDivToDisqusThread()
-    {
-        $output = $this->extension->disqus($this->disqusable);
-
-        $this->assertRegExp('/\<div id\=\"disqus_thread\"\>\<\/div\>/', $output);
-    }
-
-
-    /**
-     * @test
-     */
-    public function itAddsTheShortNameToDisqusThread()
-    {
-        $output = $this->extension->disqus($this->disqusable);
-
-        $this->assertRegExp('/var disqus_shortname="short_name"/', $output);
-    }
-
-
-    /**
-     * @test
-     */
-    public function itAddsTheDisqusableIdentifierToDisqusThread()
-    {
         $this->disqusable->expects($this->any())
             ->method('getDisqusId')
-            ->will($this->returnValue('disqus_id/4444'));
-
-        $output = $this->extension->disqus($this->disqusable);
-
-        $this->assertRegExp('/var disqus_identifier="disqus_id\/4444";/', $output);
+            ->will($this->returnValue('some_disqus_id'));
+        $this->environment = $this->getMock('Twig_Environment');
+        $this->extension = new AurekaDisqusExtension('short_name');
     }
 
 
     /**
      * @test
      */
-    public function itAddsTheShortNameToDisqusComments()
+    public function itRendersTheAppropriateTemplateForTheDisqusThread()
     {
-        $output = $this->extension->disqusComments();
+        $expected_array = array(
+            'vars' => array(
+                'disqus_shortname' => 'short_name',
+                'disqus_identifier' => 'some_disqus_id',
+                ),
+            'remote_script' => 'comment.js'
+            );
 
-        $this->assertRegExp('/var disqus_shortname="short_name";/', $output);
+        $this->environment->expects($this->once())
+            ->method('render')
+            ->with('AurekaDisqusBundle::thread.html.twig', $expected_array);
+
+        $this->extension->disqus($this->environment, $this->disqusable);
+    }
+
+
+    /**
+     * @test
+     */
+    public function itRendersTheAppropriateTemplateForTheDisqusCommentCount()
+    {
+        $expected_array = array(
+            'vars' => array(
+                'disqus_shortname' => 'short_name',
+                ),
+            'remote_script' => 'count.js'
+            );
+
+        $this->environment->expects($this->once())
+            ->method('render')
+            ->with('AurekaDisqusBundle::disqus.html.twig', $expected_array);
+
+        $this->extension->disqusCount($this->environment, $this->disqusable);
     }
 
 }

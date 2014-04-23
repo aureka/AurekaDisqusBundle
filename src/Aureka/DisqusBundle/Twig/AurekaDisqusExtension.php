@@ -19,7 +19,7 @@ class AurekaDisqusExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            new \Twig_SimpleFilter('disqus', array($this, 'disqus'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('disqus', array($this, 'disqus'), array('is_safe' => array('html'), 'needs_environment' => true)),
         );
     }
 
@@ -27,53 +27,31 @@ class AurekaDisqusExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            new \Twig_SimpleFunction('disqus_comments', array($this, 'disqusComments'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('disqus_count', array($this, 'disqusCount'), array('is_safe' => array('html'), 'needs_environment' => true)),
         );
     }
 
 
-    public function disqus(Disqusable $disqusable)
+    public function disqus(\Twig_Environment $env, Disqusable $disqusable)
     {
-        $vars = array(
-            'disqus_shortname' => $this->shortName,
-            'disqus_identifier' => $disqusable->getDisqusId(),
-            );
-        return '<div id="disqus_thread"></div>' . $this->encloseScript($this->addVars($vars, $this->remoteCall('embed.js')));
+        return $env->render('AurekaDisqusBundle::thread.html.twig', array(
+            'vars' => array(
+                'disqus_shortname' => $this->shortName,
+                'disqus_identifier' => $disqusable->getDisqusId(),
+                ),
+            'remote_script' => 'comment.js',
+            ));
     }
 
 
-    public function disqusComments()
+    public function disqusCount(\Twig_Environment $env)
     {
-        $vars = array(
-            'disqus_shortname' => $this->shortName,
-            );
-        return $this->encloseScript($this->addVars($vars, $this->remoteCall('count.js')));
-    }
-
-
-    private function encloseScript($input)
-    {
-        return '<script type="text/javascript">'.$input.'</script>';
-    }
-
-
-    private function addVars(array $vars, $input)
-    {
-        $variables = array();
-        foreach ($vars as $key => $value) {
-            $variables[] = sprintf('var %s="%s";', $key, $value);
-        }
-        return implode('', $variables).$input;
-    }
-
-
-    private function remoteCall($script_name)
-    {
-        return sprintf("(function() {
-                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-                dsq.src = '//' + disqus_shortname + '.disqus.com/%s';
-                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-            })();", $script_name);
+        return $env->render('AurekaDisqusBundle::disqus.html.twig', array(
+            'vars' => array(
+                'disqus_shortname' => $this->shortName,
+                ),
+            'remote_script' => 'count.js'
+            ));
     }
 
 

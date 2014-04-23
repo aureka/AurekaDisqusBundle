@@ -5,4 +5,4 @@ framework:
     router:          { resource: "%kernel.root_dir%/config/routing.yml" }
 
 aureka_disqus:
-    short_name: 'your_shortname'
+    short_name: 'test_short_name'
