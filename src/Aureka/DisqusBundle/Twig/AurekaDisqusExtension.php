@@ -16,17 +16,10 @@ class AurekaDisqusExtension extends \Twig_Extension
     }
 
 
-    public function getFilters()
-    {
-        return array(
-            new \Twig_SimpleFilter('disqus', array($this, 'disqus'), array('is_safe' => array('html'), 'needs_environment' => true)),
-        );
-    }
-
-
     public function getFunctions()
     {
         return array(
+            new \Twig_SimpleFunction('disqus', array($this, 'disqus'), array('is_safe' => array('html'), 'needs_environment' => true)),
             new \Twig_SimpleFunction('disqus_count', array($this, 'disqusCount'), array('is_safe' => array('html'), 'needs_environment' => true)),
         );
     }
