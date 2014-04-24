@@ -4,6 +4,6 @@ parameters:
 services:
     aureka.disqus.twig_extension:
         class: Aureka\DisqusBundle\Twig\AurekaDisqusExtension
-        arguments: ['%aureka_disqus.short_name%']
+        arguments: ['@aureka_disqus.sso', '%aureka_disqus.short_name%']
         tags:
             - { name: twig.extension }

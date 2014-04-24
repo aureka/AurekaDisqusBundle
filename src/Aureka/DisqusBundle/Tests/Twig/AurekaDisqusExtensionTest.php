@@ -10,17 +10,19 @@ class AurekaDisqusExtensionTest extends \PHPUnit_Framework_TestCase
 
     private $disqusable;
     private $environment;
+    private $sso;
     private $extension;
 
 
     public function setUp()
     {
         $this->disqusable = $this->getMock('Aureka\DisqusBundle\Model\Disqusable');
+        $this->sso = $this->getMock('Aureka\DisqusBundle\Model\SingleSignOn');
         $this->disqusable->expects($this->any())
             ->method('getDisqusId')
             ->will($this->returnValue('some_disqus_id'));
         $this->environment = $this->getMock('Twig_Environment');
-        $this->extension = new AurekaDisqusExtension('short_name');
+        $this->extension = new AurekaDisqusExtension($this->sso, 'short_name');
     }
 
 
@@ -34,6 +36,7 @@ class AurekaDisqusExtensionTest extends \PHPUnit_Framework_TestCase
                 'disqus_shortname' => 'short_name',
                 'disqus_identifier' => 'some_disqus_id',
                 ),
+            'sso' => $this->sso,
             'remote_script' => 'comment.js'
             );
 
@@ -54,6 +57,7 @@ class AurekaDisqusExtensionTest extends \PHPUnit_Framework_TestCase
             'vars' => array(
                 'disqus_shortname' => 'short_name',
                 ),
+            'sso' => $this->sso,
             'remote_script' => 'count.js'
             );
 

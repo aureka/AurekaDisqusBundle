@@ -79,4 +79,15 @@ class FunctionalTest extends WebTestCase
 
         $this->assertRegExp('/var disqus_shortname="test_short_name";/', $output);
     }
+
+
+    /**
+     * @test
+     */
+    public function itAllowsDisablingTheSingleSignOn()
+    {
+        $output = $this->templating->render('::count.html.twig', array('disqusable' => $this->disqusable));
+
+        $this->assertNotRegExp('/page\.remote_auth_s3/', $output);
+    }
 }

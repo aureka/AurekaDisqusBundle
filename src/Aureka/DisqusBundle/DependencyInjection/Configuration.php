@@ -18,6 +18,12 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('short_name')->isRequired()->end()
+                ->arrayNode('sso')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->booleanNode('enabled')->defaultValue(false)->end()
+                    ->end()
+                ->end()
             ->end();
         return $treeBuilder;
     }

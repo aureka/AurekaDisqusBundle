@@ -2,7 +2,13 @@ AurekaDisqusBundle
 =====================
 [![Build Status](https://travis-ci.org/aureka/AurekaDisqusBundle.png)](https://travis-ci.org/aureka/AurekaDisqusBundle)
 
-Provides a few Twig filters in order to facilitate the integration of your Symfony site with Disqus.
+Provides Twig funtions to facilitate the integration of your Symfony site with Disqus. It renders the proper Javascript snippets for threads and comment count.
+
+**Functions**
+- `disqus(blogpost)`: Append the JavaScript for the disqus thread.
+- `disqus_count()`: Appends the JavaScript for the comment count.
+
+
 
 ## Installation
 
@@ -74,7 +80,7 @@ Use the twig filter in your template.
 {# src/Acme/DemoBundle/Resources/views/BlogPost/show.html.twig #}
 
 {# renders the thread and comment form #}
-{{ post|disqus }}
+{{ disqus(blogpost) }}
 
 {# adds the count for any disqus link #}
 {{ disqus_count() }}
