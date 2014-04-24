@@ -9,8 +9,9 @@ use Aureka\DisqusBundle\Tests\Fixture\MyDisqusable;
 class FunctionalTest extends WebTestCase
 {
 
-    private $disqusable;
     private $templating;
+    private $configuration;
+    private $disqusable;
 
     protected static function createKernel(array $options = array())
     {
@@ -21,8 +22,9 @@ class FunctionalTest extends WebTestCase
     public function setUp()
     {
         $container = self::createClient()->getKernel()->getContainer();
-        $this->disqusable = new MyDisqusable;
         $this->templating = $container->get('templating');
+        $this->configuration = $container->get('aureka_disqus.configuration');
+        $this->disqusable = new MyDisqusable;
     }
 
 
@@ -89,5 +91,20 @@ class FunctionalTest extends WebTestCase
         $output = $this->templating->render('::thread.html.twig', array('disqusable' => $this->disqusable));
 
         $this->assertNotRegExp('/page\.remote_auth_s3/', $output);
+    }
+
+
+    /**
+     * @test
+     */
+    public function itAllowsEnablingTheSingleSignOn()
+    {
+        $this->configuration->enableSingleSingOn();
+
+        $output = $this->templating->render('::thread.html.twig', array('disqusable' => $this->disqusable));
+
+        $this->assertRegExp('/page\.remote_auth_s3/', $output);
+        $this->assertRegExp('/this\.page\.remote_auth_s3/', $output);
+        $this->assertRegExp('/this\.page\.api_key/', $output);
     }
 }

@@ -22,6 +22,8 @@ class Configuration implements ConfigurationInterface
                     ->addDefaultsIfNotSet()
                     ->children()
                         ->booleanNode('enabled')->defaultValue(false)->end()
+                        ->scalarNode('api_key')->defaultValue('')->end()
+                        ->scalarNode('private_key')->defaultValue('')->end()
                     ->end()
                 ->end()
             ->end();

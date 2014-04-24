@@ -23,7 +23,7 @@ class AurekaDisqusExtension extends Extension
         $disqus_config->setFactoryMethod('create');
         $disqus_config->addArgument($config['sso']);
         $disqus_config->addArgument($config['short_name']);
-        $container->setDefinition('aureka_disqus.config', $disqus_config);
+        $container->setDefinition('aureka_disqus.configuration', $disqus_config);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
