@@ -10,7 +10,7 @@ class FunctionalTest extends WebTestCase
 {
 
     private $templating;
-    private $configuration;
+    private $disqus;
     private $disqusable;
 
     protected static function createKernel(array $options = array())
@@ -23,7 +23,7 @@ class FunctionalTest extends WebTestCase
     {
         $container = self::createClient()->getKernel()->getContainer();
         $this->templating = $container->get('templating');
-        $this->configuration = $container->get('aureka_disqus.configuration');
+        $this->disqus = $container->get('aureka_disqus.disqus');
         $this->disqusable = new MyDisqusable;
     }
 
@@ -99,7 +99,7 @@ class FunctionalTest extends WebTestCase
      */
     public function itAllowsEnablingTheSingleSignOn()
     {
-        $this->configuration->enableSingleSingOn();
+        $this->disqus->enableSingleSingOn();
 
         $output = $this->templating->render('::thread.html.twig', array('disqusable' => $this->disqusable));
 

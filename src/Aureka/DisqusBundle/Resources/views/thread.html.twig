@@ -2,9 +2,9 @@
 
 {% include 'AurekaDisqusBundle::disqus.html.twig' %}
 
-{% if configuration.signOnEnabled %}
+{% if disqus.signOnEnabled %}
     var disqus_config = function () {
-        this.page.remote_auth_s3 = {{ configuration.singleSignOnHash }};
-        this.page.api_key = {{ configuration.apiKey }};
+        this.page.remote_auth_s3 = {{ disqus.singleSignOnHash }};
+        this.page.api_key = {{ disqus.apiKey }};
     }
 {% endif %}

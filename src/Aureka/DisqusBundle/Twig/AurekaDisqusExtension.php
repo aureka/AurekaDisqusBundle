@@ -3,17 +3,17 @@
 namespace Aureka\DisqusBundle\Twig;
 
 use Aureka\DisqusBundle\Model\Disqusable,
-    Aureka\DisqusBundle\Model\DisqusConfiguration;
+    Aureka\DisqusBundle\Model\Disqus;
 
 class AurekaDisqusExtension extends \Twig_Extension
 {
 
-    private $configuration;
+    private $disqus;
 
 
-    public function __construct(DisqusConfiguration $configuration)
+    public function __construct(Disqus $disqus)
     {
-        $this->configuration = $configuration;
+        $this->disqus = $disqus;
     }
 
 
@@ -32,7 +32,7 @@ class AurekaDisqusExtension extends \Twig_Extension
             'additional_vars' => array(
                 'disqus_identifier' => $disqusable->getDisqusId(),
                 ),
-            'configuration' => $this->configuration,
+            'disqus' => $this->disqus,
             'remote_script' => 'comment.js',
             ));
     }
@@ -42,7 +42,7 @@ class AurekaDisqusExtension extends \Twig_Extension
     {
         return $env->render('AurekaDisqusBundle::disqus.html.twig', array(
             'additional_vars' => array(),
-            'configuration' => $this->configuration,
+            'disqus' => $this->disqus,
             'remote_script' => 'count.js'
             ));
     }

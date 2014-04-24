@@ -10,7 +10,7 @@ class AurekaDisqusExtensionTest extends \PHPUnit_Framework_TestCase
 
     private $disqusable;
     private $environment;
-    private $configuration;
+    private $disqus;
     private $extension;
 
 
@@ -19,10 +19,10 @@ class AurekaDisqusExtensionTest extends \PHPUnit_Framework_TestCase
         $this->disqusable = $this->aDoubleOf('Aureka\DisqusBundle\Model\Disqusable', array(
             'getDisqusId' => 'some_disqus_id'
             ));
-        $this->configuration = $this->aDoubleOf('Aureka\DisqusBundle\Model\DisqusConfiguration', array(
+        $this->disqus = $this->aDoubleOf('Aureka\DisqusBundle\Model\Disqus', array(
             'getShortName' => 'short_name'));
         $this->environment = $this->getMock('Twig_Environment');
-        $this->extension = new AurekaDisqusExtension($this->configuration, 'short_name');
+        $this->extension = new AurekaDisqusExtension($this->disqus, 'short_name');
     }
 
 
@@ -50,7 +50,7 @@ class AurekaDisqusExtensionTest extends \PHPUnit_Framework_TestCase
             'additional_vars' => array(
                 'disqus_identifier' => 'some_disqus_id',
                 ),
-            'configuration' => $this->configuration,
+            'disqus' => $this->disqus,
             'remote_script' => 'comment.js'
             );
 
@@ -69,7 +69,7 @@ class AurekaDisqusExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $expected_array = array(
             'additional_vars' => array(),
-            'configuration' => $this->configuration,
+            'disqus' => $this->disqus,
             'remote_script' => 'count.js'
             );
 

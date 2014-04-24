@@ -1,7 +1,7 @@
 {{ spaceless }}
     <script type="text/javascript">
 
-        var disqus_shortname="{{ configuration.shortName }}";
+        var disqus_shortname="{{ disqus.shortName }}";
         {% for key, value in additional_vars %}
             var {{ key }}="{{ value }}";
         {% endfor %}

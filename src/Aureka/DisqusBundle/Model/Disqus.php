@@ -2,7 +2,7 @@
 
 namespace Aureka\DisqusBundle\Model;
 
-class DisqusConfiguration
+class Disqus
 {
 
     private $shortName;
