@@ -86,7 +86,7 @@ Use the twig filter in your template.
 {{ disqus_count() }}
 ```
 
-## Single Sign On
+## Single Sign-On
 
 Disqus brings a Single Sign-On feature that lets your application authenticate its users in Disqus.
 
@@ -101,5 +101,24 @@ aureka_disqus:
         api_key: 'enter_your_api_key_here'
         private_key: 'enter_the application_private_key_here'
 ```
+
+Now go to your `User` class and make it an implementation of `DisqusUser`:
+
+```php
+# src/Acme/DemoBundle/Entity/User.php
+
+namespace Acme\DemoBundle\Entity;
+
+use Areka\DisqusBundle\Model\DisqusUser;
+
+class User implements DisqusUser
+{
+    public function getDisqusId()
+    {
+        return $this->id; // Or a custom generated id
+    }
+}
+```
+
 
 For further information, please visit the [official documentation](http://help.disqus.com/customer/portal/articles/236206-integrating-single-sign-on).
