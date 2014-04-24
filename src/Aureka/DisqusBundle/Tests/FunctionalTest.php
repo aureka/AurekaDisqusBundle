@@ -75,7 +75,7 @@ class FunctionalTest extends WebTestCase
      */
     public function itAddsTheShortNameToDisqusComments()
     {
-        $output = $this->templating->render('::count.html.twig', array('disqusable' => $this->disqusable));
+        $output = $this->templating->render('::thread.html.twig', array('disqusable' => $this->disqusable));
 
         $this->assertRegExp('/var disqus_shortname="test_short_name";/', $output);
     }
@@ -86,7 +86,7 @@ class FunctionalTest extends WebTestCase
      */
     public function itAllowsDisablingTheSingleSignOn()
     {
-        $output = $this->templating->render('::count.html.twig', array('disqusable' => $this->disqusable));
+        $output = $this->templating->render('::thread.html.twig', array('disqusable' => $this->disqusable));
 
         $this->assertNotRegExp('/page\.remote_auth_s3/', $output);
     }
