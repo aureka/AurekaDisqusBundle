@@ -39,7 +39,7 @@ class AurekaDisqusExtensionTest extends \PHPUnit_Framework_TestCase
                 'disqus_identifier' => 'some_disqus_id',
                 ),
             'disqus' => $this->disqus,
-            'remote_script' => 'comment.js'
+            'remote_script' => 'embed.js'
             );
 
         $this->environment->expects($this->once())

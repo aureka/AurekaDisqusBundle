@@ -99,7 +99,7 @@ class FunctionalTest extends WebTestCase
      */
     public function itAllowsEnablingTheSingleSignOn()
     {
-        $this->disqus->enableSingleSingOn();
+        $this->disqus->enableSingleSignOn();
 
         $output = $this->templating->render('::thread.html.twig', array('disqusable' => $this->disqusable));
 
