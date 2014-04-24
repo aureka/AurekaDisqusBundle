@@ -3,6 +3,7 @@
 namespace Aureka\DisqusBundle\Tests\Twig;
 
 use Aureka\DisqusBundle\Twig\AurekaDisqusExtension;
+use Aureka\DisqusBundle\Tests\Mocker;
 
 
 class AurekaDisqusExtensionTest extends \PHPUnit_Framework_TestCase
@@ -12,32 +13,19 @@ class AurekaDisqusExtensionTest extends \PHPUnit_Framework_TestCase
     private $environment;
     private $disqus;
     private $extension;
+    private $mocker;
 
 
     public function setUp()
     {
-        $this->disqusable = $this->aDoubleOf('Aureka\DisqusBundle\Model\Disqusable', array(
+        $this->mocker = new Mocker($this);
+        $this->disqusable = $this->mocker->aDoubleOf('Aureka\DisqusBundle\Model\Disqusable', array(
             'getDisqusId' => 'some_disqus_id'
             ));
-        $this->disqus = $this->aDoubleOf('Aureka\DisqusBundle\Model\Disqus', array(
+        $this->disqus = $this->mocker->aDoubleOf('Aureka\DisqusBundle\Model\Disqus', array(
             'getShortName' => 'short_name'));
-        $this->environment = $this->getMock('Twig_Environment');
+        $this->environment = $this->mocker->aDoubleOf('Twig_Environment');
         $this->extension = new AurekaDisqusExtension($this->disqus, 'short_name');
-    }
-
-
-    private function aDoubleOf($class_name, array $stubs = array()) {
-        $double = $this->getMockBuilder($class_name)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        foreach ($stubs as $method => $return_value) {
-            $double->expects($this->any())
-                ->method($method)
-                ->will($this->returnValue($return_value));
-        }
-
-        return $double;
     }
 
 
