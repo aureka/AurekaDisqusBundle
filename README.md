@@ -2,9 +2,9 @@ AurekaDisqusBundle
 =====================
 [![Build Status](https://travis-ci.org/aureka/AurekaDisqusBundle.png)](https://travis-ci.org/aureka/AurekaDisqusBundle)
 
-Provides Twig funtions to facilitate the integration of your Symfony site with Disqus. It renders the proper Javascript snippets for threads and comment count.
+Provides Twig funtions to facilitate the integration of your Symfony site with Disqus. It also enables the Disqus **Single Sign-On**.
 
-**Functions**
+#### Functions
 - `disqus(blogpost)`: Append the JavaScript for the disqus thread.
 - `disqus_count()`: Appends the JavaScript for the comment count.
 
@@ -49,7 +49,7 @@ aureka_disqus:
 ```
 
 
-## Usage
+## Basic usage
 
 Make the class an implementation of the interface `Disqusable`:
 
@@ -86,3 +86,20 @@ Use the twig filter in your template.
 {{ disqus_count() }}
 ```
 
+## Single Sign On
+
+Disqus brings a Single Sign-On feature that lets your application authenticate its users in Disqus.
+
+In order to do that you need to activate the add-on in your Disqus account, create an app for your website and add the following settings to `config.yml`:
+
+
+```
+aureka_disqus:
+    short_name: 'your_shortname' # used to identify the site in disqus
+    sso:
+        enabled: true
+        api_key: 'enter_your_api_key_here'
+        private_key: 'enter_the application_private_key_here'
+```
+
+For further information, please visit the [official documentation](http://help.disqus.com/customer/portal/articles/236206-integrating-single-sign-on).
