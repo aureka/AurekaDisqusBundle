@@ -1,6 +1,6 @@
-var disqus_shortname="{{ disqus.shortName }}";
+var disqus_shortname="{{ disqus.shortName|raw }}";
 {% for key, value in additional_vars %}
-    var {{ key }}="{{ value }}";
+    var {{ key }}="{{ value|raw }}";
 {% endfor %}
 
 (function() {
