@@ -16,13 +16,28 @@ class AurekaDisqusExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->disqusable = $this->getMock('Aureka\DisqusBundle\Model\Disqusable');
-        $this->configuration = $this->getMock('Aureka\DisqusBundle\Model\DisqusConfiguration');
-        $this->disqusable->expects($this->any())
-            ->method('getDisqusId')
-            ->will($this->returnValue('some_disqus_id'));
+        $this->disqusable = $this->aDoubleOf('Aureka\DisqusBundle\Model\Disqusable', array(
+            'getDisqusId' => 'some_disqus_id'
+            ));
+        $this->configuration = $this->aDoubleOf('Aureka\DisqusBundle\Model\DisqusConfiguration', array(
+            'getShortName' => 'short_name'));
         $this->environment = $this->getMock('Twig_Environment');
         $this->extension = new AurekaDisqusExtension($this->configuration, 'short_name');
+    }
+
+
+    private function aDoubleOf($class_name, array $stubs = array()) {
+        $double = $this->getMockBuilder($class_name)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        foreach ($stubs as $method => $return_value) {
+            $double->expects($this->any())
+                ->method($method)
+                ->will($this->returnValue($return_value));
+        }
+
+        return $double;
     }
 
 
@@ -32,8 +47,7 @@ class AurekaDisqusExtensionTest extends \PHPUnit_Framework_TestCase
     public function itRendersTheAppropriateTemplateForTheDisqusThread()
     {
         $expected_array = array(
-            'vars' => array(
-                'disqus_shortname' => 'short_name',
+            'additional_vars' => array(
                 'disqus_identifier' => 'some_disqus_id',
                 ),
             'configuration' => $this->configuration,
@@ -54,9 +68,7 @@ class AurekaDisqusExtensionTest extends \PHPUnit_Framework_TestCase
     public function itRendersTheAppropriateTemplateForTheDisqusCommentCount()
     {
         $expected_array = array(
-            'vars' => array(
-                'disqus_shortname' => 'short_name',
-                ),
+            'additional_vars' => array(),
             'configuration' => $this->configuration,
             'remote_script' => 'count.js'
             );

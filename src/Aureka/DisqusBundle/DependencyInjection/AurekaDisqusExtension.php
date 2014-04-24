@@ -18,13 +18,12 @@ class AurekaDisqusExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
 
-        $container->setParameter('aureka_disqus.short_name', $config['short_name']);
-
-        $sso = new Definition('Aureka\DisqusBundle\Model\DisqusConfiguration');
-        $sso->setFactoryClass('Aureka\DisqusBundle\Model\DisqusConfiguration');
-        $sso->setFactoryMethod('fromArray');
-        $sso->addArgument($config['sso']);
-        $container->setDefinition('aureka_disqus.sso', $sso);
+        $disqus_config = new Definition('Aureka\DisqusBundle\Model\DisqusConfiguration');
+        $disqus_config->setFactoryClass('Aureka\DisqusBundle\Model\DisqusConfiguration');
+        $disqus_config->setFactoryMethod('create');
+        $disqus_config->addArgument($config['sso']);
+        $disqus_config->addArgument($config['short_name']);
+        $container->setDefinition('aureka_disqus.config', $disqus_config);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');

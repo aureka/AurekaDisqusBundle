@@ -8,13 +8,11 @@ use Aureka\DisqusBundle\Model\Disqusable,
 class AurekaDisqusExtension extends \Twig_Extension
 {
 
-    private $shortName;
     private $configuration;
 
 
-    public function __construct(DisqusConfiguration $configuration, $short_name)
+    public function __construct(DisqusConfiguration $configuration)
     {
-        $this->shortName = $short_name;
         $this->configuration = $configuration;
     }
 
@@ -31,8 +29,7 @@ class AurekaDisqusExtension extends \Twig_Extension
     public function disqus(\Twig_Environment $env, Disqusable $disqusable)
     {
         return $env->render('AurekaDisqusBundle::thread.html.twig', array(
-            'vars' => array(
-                'disqus_shortname' => $this->shortName,
+            'additional_vars' => array(
                 'disqus_identifier' => $disqusable->getDisqusId(),
                 ),
             'configuration' => $this->configuration,
@@ -44,9 +41,7 @@ class AurekaDisqusExtension extends \Twig_Extension
     public function disqusCount(\Twig_Environment $env)
     {
         return $env->render('AurekaDisqusBundle::disqus.html.twig', array(
-            'vars' => array(
-                'disqus_shortname' => $this->shortName,
-                ),
+            'additional_vars' => array(),
             'configuration' => $this->configuration,
             'remote_script' => 'count.js'
             ));
