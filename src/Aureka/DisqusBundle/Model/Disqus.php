@@ -35,7 +35,7 @@ class Disqus
     }
 
 
-    public function enableSingleSingOn()
+    public function enableSingleSignOn()
     {
         $this->sso = true;
         return $this;
