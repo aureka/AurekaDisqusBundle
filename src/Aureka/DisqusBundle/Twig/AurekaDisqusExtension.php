@@ -3,19 +3,19 @@
 namespace Aureka\DisqusBundle\Twig;
 
 use Aureka\DisqusBundle\Model\Disqusable,
-    Aureka\DisqusBundle\Model\SingleSignOn;
+    Aureka\DisqusBundle\Model\DisqusConfiguration;
 
 class AurekaDisqusExtension extends \Twig_Extension
 {
 
     private $shortName;
-    private $sso;
+    private $configuration;
 
 
-    public function __construct(SingleSignOn $sso, $short_name)
+    public function __construct(DisqusConfiguration $configuration, $short_name)
     {
         $this->shortName = $short_name;
-        $this->sso = $sso;
+        $this->configuration = $configuration;
     }
 
 
@@ -35,7 +35,7 @@ class AurekaDisqusExtension extends \Twig_Extension
                 'disqus_shortname' => $this->shortName,
                 'disqus_identifier' => $disqusable->getDisqusId(),
                 ),
-            'sso' => $this->sso,
+            'configuration' => $this->configuration,
             'remote_script' => 'comment.js',
             ));
     }
@@ -47,7 +47,7 @@ class AurekaDisqusExtension extends \Twig_Extension
             'vars' => array(
                 'disqus_shortname' => $this->shortName,
                 ),
-            'sso' => $this->sso,
+            'configuration' => $this->configuration,
             'remote_script' => 'count.js'
             ));
     }

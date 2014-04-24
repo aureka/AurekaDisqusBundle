@@ -2,14 +2,14 @@
 
 namespace Aureka\DisqusBundle\Model;
 
-class SingleSignOn
+class DisqusConfiguration
 {
 
     public static function fromArray(array $settings) {
-        $sso = new static();
+        $configuration = new static();
         if ($settings['enabled']) {
-            $sso->enable();
+            $configuration->enableSingleSignOn();
         }
-        return $sso;
+        return $configuration;
     }
 }

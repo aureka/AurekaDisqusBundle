@@ -20,8 +20,8 @@ class AurekaDisqusExtension extends Extension
 
         $container->setParameter('aureka_disqus.short_name', $config['short_name']);
 
-        $sso = new Definition('Aureka\DisqusBundle\Model\SingleSignOn');
-        $sso->setFactoryClass('Aureka\DisqusBundle\Model\SingleSignOn');
+        $sso = new Definition('Aureka\DisqusBundle\Model\DisqusConfiguration');
+        $sso->setFactoryClass('Aureka\DisqusBundle\Model\DisqusConfiguration');
         $sso->setFactoryMethod('fromArray');
         $sso->addArgument($config['sso']);
         $container->setDefinition('aureka_disqus.sso', $sso);
