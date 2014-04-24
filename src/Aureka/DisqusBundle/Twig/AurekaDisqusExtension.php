@@ -33,7 +33,7 @@ class AurekaDisqusExtension extends \Twig_Extension
                 'disqus_identifier' => $disqusable->getDisqusId(),
                 ),
             'disqus' => $this->disqus,
-            'remote_script' => 'comment.js',
+            'remote_script' => 'embed.js',
             ));
     }
 
