@@ -63,7 +63,7 @@ class AurekaDisqusExtensionTest extends \PHPUnit_Framework_TestCase
 
         $this->environment->expects($this->once())
             ->method('render')
-            ->with('AurekaDisqusBundle::disqus.html.twig', $expected_array);
+            ->with('AurekaDisqusBundle::count.html.twig', $expected_array);
 
         $this->extension->disqusCount($this->environment, $this->disqusable);
     }

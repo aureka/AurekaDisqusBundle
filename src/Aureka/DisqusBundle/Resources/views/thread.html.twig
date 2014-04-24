@@ -1,12 +1,13 @@
 <div id="disqus_thread"></div>
 
-{% if disqus.signOnEnabled %}
 <script type="text/javascript">
-    var disqus_config = function () {
-        this.page.remote_auth_s3 = {{ disqus.singleSignOnHash(app.user) }};
-        this.page.api_key = {{ disqus.apiKey }};
-    }
-</script>
-{% endif %}
+    {% if disqus.signOnEnabled %}
+        var disqus_config = function () {
+            this.page.remote_auth_s3 = "{{ disqus.singleSignOnHash(app.user) }}";
+            this.page.api_key = "{{ disqus.apiKey }}";
+        }
+    {% endif %}
 
-{% include 'AurekaDisqusBundle::disqus.html.twig' %}
+    {% include 'AurekaDisqusBundle::disqusSnippet.js.twig' %}
+</script>
+

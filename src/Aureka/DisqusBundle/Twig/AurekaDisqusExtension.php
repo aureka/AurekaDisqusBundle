@@ -40,7 +40,7 @@ class AurekaDisqusExtension extends \Twig_Extension
 
     public function disqusCount(\Twig_Environment $env)
     {
-        return $env->render('AurekaDisqusBundle::disqus.html.twig', array(
+        return $env->render('AurekaDisqusBundle::count.html.twig', array(
             'additional_vars' => array(),
             'disqus' => $this->disqus,
             'remote_script' => 'count.js'
