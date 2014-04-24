@@ -1,10 +1,12 @@
 <div id="disqus_thread"></div>
 
-{% include 'AurekaDisqusBundle::disqus.html.twig' %}
-
 {% if disqus.signOnEnabled %}
+<script type="text/javascript">
     var disqus_config = function () {
         this.page.remote_auth_s3 = {{ disqus.singleSignOnHash(app.user) }};
         this.page.api_key = {{ disqus.apiKey }};
     }
+</script>
 {% endif %}
+
+{% include 'AurekaDisqusBundle::disqus.html.twig' %}
