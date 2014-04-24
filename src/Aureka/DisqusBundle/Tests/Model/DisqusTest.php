@@ -13,23 +13,24 @@ class DisqusTest extends \PHPUnit_Framework_TestCase
     const TIMESTAMP   = 1398239523;
 
 
+    private $disqus;
+
+    public function setUp()
+    {
+        $this->disqus = new Disqus('my_web', self::PRIVATE_KEY, self::API_KEY);
+    }
+
+
     /**
      * @test
      */
-    public function itGeneratesASingleSignOnHash()
+    public function itDoesGeneratesAHashForAUser()
     {
-        $user = $this->aDoubleOf('Aureka\DisqusBundle\Model\DisqusUser',
-            array(
-                'getDisqusId' => 56,
-                'getUsername' => 'someone',
-                'getEmail' => 'someones@email.is'
-                ));
-        $disqus = new Disqus('my_web', self::PRIVATE_KEY, self::API_KEY);
-        $expected_hash = 'eyJpZCI6NTYsInVzZXJuYW1lIjoic29tZW9uZSIsImVtYWlsIjoic29tZW9uZXNAZW1haWwuaXMifQ== 71ac24d3f28450adad62de2e874f30ac4d43ddef 1398239523';
+        $user = $this->aDoubleOf('Aureka\DisqusBundle\Model\DisqusUser');
 
-        $hash = $disqus->getSingleSignOnHash($user, self::TIMESTAMP);
+        $hash = $this->disqus->getSingleSignOnHash($user);
 
-        $this->assertEquals($expected_hash, $hash);
+        $this->assertNotEquals('', $hash);
     }
 
 
@@ -38,13 +39,9 @@ class DisqusTest extends \PHPUnit_Framework_TestCase
      */
     public function itDoesNotGenerateAHashIfNoUserIsProvided()
     {
-        $user = null;
-        $disqus = new Disqus('my_web', self::PRIVATE_KEY, self::API_KEY);
-        $expected_hash = '';
+        $hash = $this->disqus->getSingleSignOnHash(null);
 
-        $hash = $disqus->getSingleSignOnHash($user, self::TIMESTAMP);
-
-        $this->assertEquals($expected_hash, $hash);
+        $this->assertEquals('', $hash);
     }
 
 
