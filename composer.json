@@ -1,7 +1,7 @@
 {
     "name": "aureka/disqus-bundle",
     "type": "symfony-bundle",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "license": "Apache2",
     "description": "Provides a few Twig filters to integrate Symfony with Disqus",
     "authors": [
